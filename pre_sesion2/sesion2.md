@@ -22,7 +22,6 @@
 sequenceDiagram
   actor Client
 
-
   participant L0 as Agente L0 <br>Primera linea
   participant L1 as Agente L1 <br>GDPR
   participant Fichero as Fichero Excel

@@ -48,21 +48,19 @@
 sequenceDiagram
 Actor Cliente
 Participant Banca as [Sistema Automatico]<br>Cobranders<br>BNPL<br>Amazon Gil
-Participant L0 as [L0 Contact Center]<br>Chat<br>Telefono
-Participant L0Back as [L0]<br>Backoffice
-Participant Picaso
-Participant CRM as CRM = Picaso?
+Participant L0 as L0 Contact Center
+Participant Picaso as Picaso CRM
 Participant DMS
 Participant Excel as Excel <br>Revisión Manual
 Actor Riesgo
 
-Cliente ->> Banca: Solicitud de préstamo
+Cliente ->> Banca: Solicitud de Producto
 activate Banca
-Banca ->> Banca: Análisis del préstamo
-alt Préstamo aceptado
-    Banca ->> Cliente: Aprobación del préstamo
+Banca ->> Banca: Análisis del Producto
+alt Producto aceptado
+    Banca ->> Cliente: Aprobación del Producto
     Note right of Cliente: Fuera de alcance
-else Préstamo rechazado
+else Producto rechazado
     Banca ->> Cliente: Comunicación de rechazo <br>[Template simplificado]
 deactivate Banca
     Note right of Cliente: Seguiremos con el <br>análisis solamente de ese caso
@@ -70,7 +68,7 @@ end
 Cliente ->> L0: Solicita más detalles sobre la denegación
 activate L0
 alt Chat/Telefono
-L0 -->> CRM: Registra la llamada o el chat
+L0 -->> Picaso: Registra la llamada o el chat
 L0 <<->> Picaso: Consulta información<br>[Amazon a partir de abril]
 L0 <<->> DMS: Consulta información de comunicaciones
 L0 ->> L0: Analiza el caso
@@ -82,31 +80,31 @@ deactivate L0
 end
 
 else Email
-Cliente ->> L0Back: Solicita más detalles sobre la denegación
-activate L0Back
-L0Back -->> CRM: Se registra la consulta por email
-L0Back ->> L0Back: Templete más completo
-L0Back ->> Cliente: Templete más completo<br>[proceso manual]
-deactivate L0Back
+Cliente ->> L0: Solicita más detalles sobre la denegación
+activate L0
+L0 -->> Picaso: Se registra la consulta por email
+L0 ->> L0: Templete más completo
+L0 ->> Cliente: Templete más completo<br>[proceso manual]
+deactivate L0
 end
 alt [Chat / Telefono]
 Cliente ->> L0: Solicita revisión Manual
 activate L0
-L0 -->> CRM: Se registra la solicitud
+L0 -->> Picaso: Se registra la solicitud
 L0 ->> Cliente: Solicita más documentación
 Cliente ->> L0: Envía documentación
-L0 -->> CRM: Se registra documentación recibida
+L0 -->> Picaso: Se registra documentación recibida
 L0 ->> Excel: Actualiza Excel de revisión manual
 deactivate L0
 else [email]
-Cliente ->> L0Back: Solicita revisión Manual
-activate L0Back
-L0Back -->> CRM: Se registra la solicitud
-L0Back ->> Cliente: Solicita más documentación
-Cliente ->> L0Back: Envía documentación
-L0Back ->> CRM: Se registra documentación recibida
-L0Back ->> Excel: Actualiza Excel de revisión manual
-deactivate L0Back
+Cliente ->> L0: Solicita revisión Manual
+activate L0
+L0 -->> Picaso: Se registra la solicitud
+L0 ->> Cliente: Solicita más documentación
+Cliente ->> L0: Envía documentación
+L0 ->> Picaso: Se registra documentación recibida
+L0 ->> Excel: Actualiza Excel de revisión manual
+deactivate L0
 end
 Riesgo <<->> Excel: Consulta Excel de casos a revisar?
 ```

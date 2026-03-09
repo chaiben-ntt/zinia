@@ -18,6 +18,12 @@
 
 Tarjetas - Amazon
 
+## Tenants:
+
+- BNPL
+- Amazon Gil
+- Amazon CoBranded
+
 Installments
 
 - Productos regulados y no regulados
@@ -27,5 +33,6 @@ Installments
 Para que ser cliente en Amazon GIL
 
 ```mermaid
+sequenceDiagram
 Actor Cliente
 ```
